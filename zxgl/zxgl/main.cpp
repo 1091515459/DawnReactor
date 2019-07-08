@@ -21,14 +21,19 @@ unsigned int indices[] = {
 const char * vertexShaderSource =
 "#version 330 core                                        				\n "
 "layout(location = 0) in vec3 aPos; 								\n "
+"out vec4 vertexColor;                                                 \n "
 "void main() {																\n "
-"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);}		\n ";
+"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);       \n "
+"	vertexColor = vec4(1.0,0,0,1.0);                               \n "
+"}																					\n ";
 
 const char* fragmentShaderSource =
 "#version 330 core                                    		\n "
-"out vec4 FragColor;                                  		\n "
+"in vec4 vertexColor;                                 		\n "
+"uniform vec4 ourColor;									\n "
+"out vec4 FragColor;                                        \n "
 "void main() {													\n "
-"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);}       	\n ";
+"	FragColor = ourColor;}								\n ";
 
 void processInput(GLFWwindow*window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -66,7 +71,7 @@ int main() {
 	}
 
 	glViewport(0, 0, 800, 600);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_FRONT);//正面剔除
 	//glCullFace(GL_BACK);//背面剔除
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//线框模式
@@ -121,7 +126,12 @@ int main() {
 
 		glBindVertexArray(VAO);//VAO不是必须的 VAO可以认为是个Key VAO不存储任何具体的订单值, VBO才存储, 当有多个VBO的时候 使用Key-VAO就会很方便
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+		float timeValue = glfwGetTime();
+		float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+		int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
 		glUseProgram(shaderProgram);
+		glUniform4f(vertexColorLocation, 0, greenValue, 0, 1.0f);
 		//glDrawArrays(GL_TRIANGLES, 0, 6);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
