@@ -3,14 +3,15 @@
 #define GLEW_STATIC
 #include<GL/glew.h>
 #include<GLFW/glfw3.h>
+#include"shaderClass1.h"
 
 float vertices[] = {
-	-0.5f, -0.5f, 0.0f, 	 //0
-	 0.5f, -0.5f, 0.0f,	 //1
-	 0.0f,  0.5f, 0.0f,	 //2
+	-0.5f, -0.5f, 0.0f, 1.0f, 0, 0,	 //0
+	 0.5f, -0.5f, 0.0f, 0, 1.0f, 0,	 //1
+	 0.0f,  0.5f, 0.0f, 0, 0, 1.0f,	 //2
 	 //0.5f, -0.5f, 0.0f,	 //
 	 //0.0f,  0.5f, 0.0f,	 //
-	 0.8f , 0.8f , 0.0f	 //3
+	 0.8f , 0.8f , 0.0f, 0.3f, 0.5f, 0.7f	 //3
 };//后三个是故意写反的，下文有加反面剔除
 
 unsigned int indices[] = {
@@ -18,22 +19,23 @@ unsigned int indices[] = {
 	2,3,1
 };
 
-const char * vertexShaderSource =
-"#version 330 core                                        				\n "
-"layout(location = 0) in vec3 aPos; 								\n "
-"out vec4 vertexColor;                                                 \n "
-"void main() {																\n "
-"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);       \n "
-"	vertexColor = vec4(1.0,0,0,1.0);                               \n "
-"}																					\n ";
-
-const char* fragmentShaderSource =
-"#version 330 core                                    		\n "
-"in vec4 vertexColor;                                 		\n "
-"uniform vec4 ourColor;									\n "
-"out vec4 FragColor;                                        \n "
-"void main() {													\n "
-"	FragColor = ourColor;}								\n ";
+//const char * vertexShaderSource =
+//"#version 330 core                                        				\n "
+//"layout(location = 0) in vec3 aPos; 								\n "
+//"layout(location = 1) in vec3 aColor; 							\n "
+//"out vec4 vertexColor;                                                 \n "
+//"void main() {																\n "
+//"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);       \n "
+//"	vertexColor = vec4(aColor.x, aColor.y, aColor.z, 1.0);												\n "
+//"}																					\n ";
+//
+//const char* fragmentShaderSource =
+//"#version 330 core                                    		\n "
+//"in vec4 vertexColor;                                 		\n "
+//"uniform vec4 ourColor;									\n "
+//"out vec4 FragColor;                                        \n "
+//"void main() {													\n "
+//"	FragColor = vertexColor;}								\n ";
 
 void processInput(GLFWwindow*window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -76,6 +78,10 @@ int main() {
 	//glCullFace(GL_BACK);//背面剔除
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//线框模式
 
+	shaderClass1* myshader = new shaderClass1("vertexSource.txt", "fragmentSource.txt");
+
+
+
 	////主要用法
 	//unsigned int VAO[10];
 	//glGenVertexArrays(10, VAO);
@@ -97,24 +103,26 @@ int main() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	unsigned int vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
+	//unsigned int vertexShader;
+	//vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	//glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	//glCompileShader(vertexShader);
 
-	unsigned int fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
+	//unsigned int fragmentShader;
+	//fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	//glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	//glCompileShader(fragmentShader);
 
-	unsigned int shaderProgram;
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
+	//unsigned int shaderProgram;
+	//shaderProgram = glCreateProgram();
+	//glAttachShader(shaderProgram, vertexShader);
+	//glAttachShader(shaderProgram, fragmentShader);
+	//glLinkProgram(shaderProgram);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 
 	while (!glfwWindowShouldClose(window))
@@ -127,12 +135,13 @@ int main() {
 		glBindVertexArray(VAO);//VAO不是必须的 VAO可以认为是个Key VAO不存储任何具体的订单值, VBO才存储, 当有多个VBO的时候 使用Key-VAO就会很方便
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
-		float timeValue = glfwGetTime();
-		float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-		int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-		glUseProgram(shaderProgram);
-		glUniform4f(vertexColorLocation, 0, greenValue, 0, 1.0f);
-		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		//float timeValue = glfwGetTime();
+		//float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+		//int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+		//glUseProgram(shaderProgram);
+		//glUniform4f(vertexColorLocation, 0, greenValue, 0, 1.0f);
+		myshader->use();
+
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 

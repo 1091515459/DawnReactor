@@ -1,3 +1,2 @@
 ﻿  main.cpp
-d:\user\homework\anodegl\zxgl\zxgl\main.cpp(130): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-  zxgl.vcxproj -> D:\user\homework\AnodeGL\zxgl\Debug\zxgl.exe
+  zxgl.vcxproj -> E:\user\homework\IOSProject\ZXGL\zxgl\Debug\zxgl.exe
