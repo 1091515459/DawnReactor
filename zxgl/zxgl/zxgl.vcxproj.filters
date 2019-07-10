@@ -21,14 +21,25 @@
     <ClCompile Include="shaderClass1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="stbTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaderClass1.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="vertexSource.txt" />
     <Text Include="fragmentSource.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="打开.png">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

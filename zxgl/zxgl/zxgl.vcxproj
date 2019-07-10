@@ -133,13 +133,18 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shaderClass1.cpp" />
+    <ClCompile Include="stbTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaderClass1.h" />
+    <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="fragmentSource.txt" />
     <Text Include="vertexSource.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="打开.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

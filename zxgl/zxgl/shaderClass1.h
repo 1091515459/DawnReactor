@@ -15,6 +15,7 @@ public:
 	void  use();
 
 	//~shaderClass1();
-
+private:
+	void checkCompileErrors(unsigned int ID, std::string type);
 };
 
