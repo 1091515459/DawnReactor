@@ -16,7 +16,7 @@ int main2() {
 
 	while (true) {
 
-	}
+	} 
 
 	return 0;
 }
