@@ -4,19 +4,19 @@
 #include<GL/glew.h>
 #include<GLFW/glfw3.h>
 #include"shaderClass1.h"
+#include "stb_image.h"
 
 float vertices[] = {
-	-0.5f, -0.5f, 0.0f, 1.0f, 0, 0,	 //0
-	 0.5f, -0.5f, 0.0f, 0, 1.0f, 0,	 //1
-	 0.0f,  0.5f, 0.0f, 0, 0, 1.0f,	 //2
-	 //0.5f, -0.5f, 0.0f,	 //
-	 //0.0f,  0.5f, 0.0f,	 //
-	 0.8f , 0.8f , 0.0f, 0.3f, 0.5f, 0.7f	 //3
-};//后三个是故意写反的，下文有加反面剔除
+	//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
+		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // 右上
+		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // 右下
+		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // 左下
+		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // 左上
+};
 
 unsigned int indices[] = {
 	0,1,2,
-	2,3,1
+	2,3,0
 };
 
 //const char * vertexShaderSource =
@@ -119,11 +119,27 @@ int main() {
 	//glAttachShader(shaderProgram, fragmentShader);
 	//glLinkProgram(shaderProgram);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	//加载并生成纹理
+	int width, height, nrChannels;
+	unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
+	if (data) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		printf("Failed to load texture");
+	}
+	stbi_image_free(data);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -132,6 +148,7 @@ int main() {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		glBindTexture(GL_TEXTURE_2D, texture);
 		glBindVertexArray(VAO);//VAO不是必须的 VAO可以认为是个Key VAO不存储任何具体的订单值, VBO才存储, 当有多个VBO的时候 使用Key-VAO就会很方便
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
