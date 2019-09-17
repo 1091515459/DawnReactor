@@ -126,9 +126,10 @@ int main() {
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
-	unsigned int texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	unsigned int TexBufferA;
+	glGenTextures(1, &TexBufferA);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, TexBufferA);
 	//加载并生成纹理
 	int width, height, nrChannels;
 	unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
@@ -141,6 +142,22 @@ int main() {
 	}
 	stbi_image_free(data);
 
+	unsigned int TexBufferB;
+	glGenTextures(1, &TexBufferB);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, TexBufferB);
+	//加载并生成纹理
+	unsigned char* data2 = stbi_load("face.png", &width, &height, &nrChannels, 0);
+	if (data2) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data2);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		printf("Failed to load texture");
+	}
+	stbi_image_free(data2);
+
+
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
@@ -148,7 +165,10 @@ int main() {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glBindTexture(GL_TEXTURE_2D, texture);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, TexBufferA);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, TexBufferB);
 		glBindVertexArray(VAO);//VAO不是必须的 VAO可以认为是个Key VAO不存储任何具体的订单值, VBO才存储, 当有多个VBO的时候 使用Key-VAO就会很方便
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
@@ -158,7 +178,8 @@ int main() {
 		//glUseProgram(shaderProgram);
 		//glUniform4f(vertexColorLocation, 0, greenValue, 0, 1.0f);
 		myshader->use();
-
+		glUniform1i(glGetUniformLocation(myshader->ID, "ourTexture"), 0);
+		glUniform1i(glGetUniformLocation(myshader->ID, "ourFace"), 1);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
