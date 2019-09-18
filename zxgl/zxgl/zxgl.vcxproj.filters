@@ -21,9 +21,6 @@
     <ClCompile Include="shaderClass1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="stbTest.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="container.jpg">

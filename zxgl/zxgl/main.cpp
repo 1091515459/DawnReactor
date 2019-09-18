@@ -6,6 +6,12 @@
 #include"shaderClass1.h"
 #include "stb_image.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+
 float vertices[] = {
 	//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
 		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // 右上
@@ -157,6 +163,10 @@ int main() {
 	}
 	stbi_image_free(data2);
 
+	//calculate our transformation matrix here.
+	glm::mat4 trans;
+	trans = glm::rotate(trans, glm::radians(90.0f),glm::vec3(0.0f, 0, 1.0f));
+	trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -180,9 +190,8 @@ int main() {
 		myshader->use();
 		glUniform1i(glGetUniformLocation(myshader->ID, "ourTexture"), 0);
 		glUniform1i(glGetUniformLocation(myshader->ID, "ourFace"), 1);
+		glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

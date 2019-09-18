@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\opengl\glfw-3.3.bin.WIN32\include;D:\opengl\glew-2.1.0-win32\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\user\homework\AnodeGL\opengl\glm-0.9.8.0\glm\glm;D:\opengl\glfw-3.3.bin.WIN32\include;D:\opengl\glew-2.1.0-win32\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>D:\opengl\glfw-3.3.bin.WIN32\lib-vc2017;D:\opengl\glew-2.1.0-win32\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -133,7 +133,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shaderClass1.cpp" />
-    <ClCompile Include="stbTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="container.jpg" />
