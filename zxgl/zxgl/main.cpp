@@ -138,6 +138,7 @@ int main() {
 	glBindTexture(GL_TEXTURE_2D, TexBufferA);
 	//加载并生成纹理
 	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
 	if (data) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -164,12 +165,24 @@ int main() {
 	stbi_image_free(data2);
 
 	//calculate our transformation matrix here.
+
 	glm::mat4 trans;
-	trans = glm::rotate(trans, glm::radians(90.0f),glm::vec3(0.0f, 0, 1.0f));
-	trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
+	//trans = glm::rotate(trans, glm::radians(90.0f),glm::vec3(0.0f, 0, 1.0f));
+	//trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
+	//trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0));
+	//trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0, 0, 1.0f));
+
+	glm::mat4 modeMat;
+	modeMat = glm::rotate(modeMat, glm::radians(-55.0f), glm::vec3(1.0f, 0, 0));
+	glm::mat4 viewMat;
+	viewMat = glm::translate(viewMat, glm::vec3(0, 0, -3.0f));
+	glm::mat4 projMat;
+	projMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 	while (!glfwWindowShouldClose(window))
 	{
+
+
 		processInput(window);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -190,7 +203,11 @@ int main() {
 		myshader->use();
 		glUniform1i(glGetUniformLocation(myshader->ID, "ourTexture"), 0);
 		glUniform1i(glGetUniformLocation(myshader->ID, "ourFace"), 1);
-		glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
+		//glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
+		glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "modeMat"), 1, GL_FALSE, glm::value_ptr(modeMat));
+		glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
+		glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "projMat"), 1, GL_FALSE, glm::value_ptr(projMat));
+
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
