@@ -138,6 +138,7 @@
     <Image Include="container.jpg" />
     <Image Include="face.png" />
     <Image Include="打开.png" />
+    <Image Include="美女.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="fragmentSource.txt" />

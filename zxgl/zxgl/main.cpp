@@ -69,6 +69,19 @@ unsigned int indices[] = {
 	2,3,0
 };
 
+glm::vec3 cubePositions[] = {
+  glm::vec3(0.0f, 0.0f,  0.0f),
+  glm::vec3(2.0f,  5.0f, -15.0f),
+  glm::vec3(-1.5f, -2.2f, -2.5f),
+  glm::vec3(-3.8f, -2.0f, -12.3f),
+  glm::vec3(2.4f, -0.4f, -3.5f),
+  glm::vec3(-1.7f,  3.0f, -7.5f),
+  glm::vec3(1.3f, -2.0f, -2.5f),
+  glm::vec3(1.5f,  2.0f, -2.5f),
+  glm::vec3(1.5f,  0.2f, -1.5f),
+  glm::vec3(-1.3f,  1.0f, -1.5f)
+};
+
 //const char * vertexShaderSource =
 //"#version 330 core                                        				\n "
 //"layout(location = 0) in vec3 aPos; 								\n "
@@ -199,7 +212,7 @@ int main() {
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, TexBufferB);
 	//加载并生成纹理
-	unsigned char* data2 = stbi_load("face.png", &width, &height, &nrChannels, 0);
+	unsigned char* data2 = stbi_load("美女.png", &width, &height, &nrChannels, 0);
 	if (data2) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data2);
 		glGenerateMipmap(GL_TEXTURE_2D);
@@ -218,7 +231,7 @@ int main() {
 	//trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0, 0, 1.0f));
 
 	glm::mat4 modeMat;
-	modeMat = glm::rotate(modeMat, glm::radians(-45.0f), glm::vec3(0, 1.0f, 1.0f));
+	modeMat = glm::rotate(modeMat, glm::radians(0.0f), glm::vec3(0, 1.0f, 1.0f));
 	glm::mat4 viewMat;
 	viewMat = glm::translate(viewMat, glm::vec3(0, 0, -3.0f));
 	glm::mat4 projMat;
@@ -245,17 +258,23 @@ int main() {
 		//int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
 		//glUseProgram(shaderProgram);
 		//glUniform4f(vertexColorLocation, 0, greenValue, 0, 1.0f);
-		myshader->use();
-		glUniform1i(glGetUniformLocation(myshader->ID, "ourTexture"), 0);
-		glUniform1i(glGetUniformLocation(myshader->ID, "ourFace"), 1);
-		//glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
-		glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "modeMat"), 1, GL_FALSE, glm::value_ptr(modeMat));
-		glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
-		glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "projMat"), 1, GL_FALSE, glm::value_ptr(projMat));
 
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		int modelnumber = 10;
+
+		for (int i = 0; i < modelnumber; i++)
+		{
+			glm::mat4 model;
+			model = glm::translate(model, cubePositions[i]);
+			myshader->use();
+			glUniform1i(glGetUniformLocation(myshader->ID, "ourTexture"), 0);
+			glUniform1i(glGetUniformLocation(myshader->ID, "ourFace"), 1);
+			//glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
+			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "modeMat"), 1, GL_FALSE, glm::value_ptr(model));
+			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
+			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "projMat"), 1, GL_FALSE, glm::value_ptr(projMat));
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
 		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
