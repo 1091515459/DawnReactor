@@ -1,5 +1,5 @@
 # ZXGL
-基于 opengl 的引擎
+基于opengl的引擎
 
 
 ### 17 Texture(2)
