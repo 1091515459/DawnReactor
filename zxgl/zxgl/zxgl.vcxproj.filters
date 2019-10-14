@@ -21,6 +21,9 @@
     <ClCompile Include="shaderClass1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="container.jpg">
@@ -50,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

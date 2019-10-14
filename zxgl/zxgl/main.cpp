@@ -11,6 +11,7 @@
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
+#include "Camera.h"
 
 //float vertices[] = {
 //	//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
@@ -222,8 +223,10 @@ int main() {
 	}
 	stbi_image_free(data2);
 
-	//calculate our transformation matrix here.
+	//Instantiate Camera class
+	Camera camera(glm::vec3(0, 0, 3.0f), glm::vec3(0, 1, 0), glm::vec3(0, 1.0f, 0));
 
+	//calculate our transformation matrix here.
 	glm::mat4 trans;
 	//trans = glm::rotate(trans, glm::radians(90.0f),glm::vec3(0.0f, 0, 1.0f));
 	//trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
@@ -233,7 +236,8 @@ int main() {
 	glm::mat4 modeMat;
 	modeMat = glm::rotate(modeMat, glm::radians(0.0f), glm::vec3(0, 1.0f, 1.0f));
 	glm::mat4 viewMat;
-	viewMat = glm::translate(viewMat, glm::vec3(0, 0, -3.0f));
+	//viewMat = glm::translate(viewMat, glm::vec3(0, 0, -3.0f));
+	viewMat = camera.GetViewMatrix();
 	glm::mat4 projMat;
 	projMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
@@ -259,6 +263,7 @@ int main() {
 		//glUseProgram(shaderProgram);
 		//glUniform4f(vertexColorLocation, 0, greenValue, 0, 1.0f);
 
+		//TODO:一个glDrawArrays画出10个立方体
 		int modelnumber = 10;
 
 		for (int i = 0; i < modelnumber; i++)

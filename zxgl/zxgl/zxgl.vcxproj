@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shaderClass1.cpp" />
   </ItemGroup>
@@ -145,6 +146,7 @@
     <Text Include="vertexSource.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="shaderClass1.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
