@@ -224,7 +224,8 @@ int main() {
 	stbi_image_free(data2);
 
 	//Instantiate Camera class
-	Camera camera(glm::vec3(0, 0, 3.0f), glm::vec3(0, 1, 0), glm::vec3(0, 1.0f, 0));
+	//Camera camera(glm::vec3(0, 0, 3.0f), glm::vec3(0, 1, 0), glm::vec3(0, 1.0f, 0));
+	Camera camera(glm::vec3(0, 0, 3.0f), 15.0f, 180.0f, glm::vec3(0, 1.0f, 0));
 
 	//calculate our transformation matrix here.
 	glm::mat4 trans;

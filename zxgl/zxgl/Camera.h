@@ -6,6 +6,7 @@ class Camera
 {
 public :
 	Camera(glm::vec3 position, glm::vec3 target,glm::vec3 worldup);
+	Camera(glm::vec3 position, float patch, float yaw, glm::vec3 worldup);
 	~Camera();
 
 	glm::vec3 Position;
