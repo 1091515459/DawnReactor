@@ -101,12 +101,60 @@ glm::vec3 cubePositions[] = {
 //"void main() {													\n "
 //"	FragColor = vertexColor;}								\n ";
 
-void processInput(GLFWwindow*window) {
+
+//Instantiate Camera class
+//Camera camera(glm::vec3(0, 0, 3.0f), glm::vec3(0, 1, 0), glm::vec3(0, 1.0f, 0));
+Camera camera(glm::vec3(0, 0, 3.0f), 15.0f, 180.0f, glm::vec3(0, 1.0f, 0));
+
+void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		camera.SpeedZ = 1.0f;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		camera.SpeedZ = -1.0f;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+	{
+		camera.SpeedX = -1.0f;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	{
+		camera.SpeedX = 1.0f;
+	}
+	else 
+	{
+		camera.SpeedZ = 0.0f;
+		camera.SpeedX = 0.0f;
+	}
 }
+
+float LastX;
+float LastY;
+bool firstMouseInput = true;
+
+void mouse_callback(GLFWwindow* window, double xPos, double yPos) {
+	if (firstMouseInput) {
+		LastX = xPos;
+		LastY = yPos;
+		firstMouseInput = false;
+	}
+
+	float deltaX, deltaY;
+	deltaX = xPos - LastX;
+	deltaY = yPos - LastY;
+
+	LastX = xPos;
+	LastY = yPos;
+
+	camera.ProcessMoustMovement(deltaX, deltaY);
+}
+
 
 int main() {
 
@@ -116,7 +164,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	//open GLFW Window
-	GLFWwindow* window = glfwCreateWindow(800, 600, "ANODE face", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(800, 600, "Asahi", NULL, NULL);
 
 	if (window == NULL)
 	{
@@ -126,6 +174,8 @@ int main() {
 
 	}
 	glfwMakeContextCurrent(window);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(window, mouse_callback);
 
 	//Init GLFW
 	glewExperimental = true;
@@ -223,10 +273,6 @@ int main() {
 	}
 	stbi_image_free(data2);
 
-	//Instantiate Camera class
-	//Camera camera(glm::vec3(0, 0, 3.0f), glm::vec3(0, 1, 0), glm::vec3(0, 1.0f, 0));
-	Camera camera(glm::vec3(0, 0, 3.0f), 15.0f, 180.0f, glm::vec3(0, 1.0f, 0));
-
 	//calculate our transformation matrix here.
 	glm::mat4 trans;
 	//trans = glm::rotate(trans, glm::radians(90.0f),glm::vec3(0.0f, 0, 1.0f));
@@ -238,14 +284,11 @@ int main() {
 	modeMat = glm::rotate(modeMat, glm::radians(0.0f), glm::vec3(0, 1.0f, 1.0f));
 	glm::mat4 viewMat;
 	//viewMat = glm::translate(viewMat, glm::vec3(0, 0, -3.0f));
-	viewMat = camera.GetViewMatrix();
 	glm::mat4 projMat;
 	projMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 	while (!glfwWindowShouldClose(window))
 	{
-
-
 		processInput(window);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -263,6 +306,8 @@ int main() {
 		//int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
 		//glUseProgram(shaderProgram);
 		//glUniform4f(vertexColorLocation, 0, greenValue, 0, 1.0f);
+
+		viewMat = camera.GetViewMatrix();
 
 		//TODO:一个glDrawArrays画出10个立方体
 		int modelnumber = 10;
@@ -283,7 +328,9 @@ int main() {
 		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+		camera.UpdateCameraPos();
 	}
+
 
 	glfwTerminate();
 	return 0;
