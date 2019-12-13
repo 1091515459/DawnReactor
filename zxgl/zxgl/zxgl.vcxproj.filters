@@ -40,10 +40,10 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="fragmentSource.txt">
+    <Text Include="fragmentSource.frag">
       <Filter>源文件</Filter>
     </Text>
-    <Text Include="vertexSource.txt">
+    <Text Include="vertexSource.vert">
       <Filter>源文件</Filter>
     </Text>
   </ItemGroup>

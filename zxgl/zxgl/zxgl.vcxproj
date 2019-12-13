@@ -23,6 +23,7 @@
     <ProjectGuid>{1984E54C-5494-4F16-9165-7880C167CC73}</ProjectGuid>
     <RootNamespace>zxgl</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Asahi</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -142,8 +143,8 @@
     <Image Include="美女.png" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="fragmentSource.txt" />
-    <Text Include="vertexSource.txt" />
+    <Text Include="fragmentSource.frag" />
+    <Text Include="vertexSource.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />

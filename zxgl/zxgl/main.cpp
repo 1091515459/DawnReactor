@@ -13,14 +13,7 @@
 #include <gtc/type_ptr.hpp>
 #include "Camera.h"
 
-//float vertices[] = {
-//	//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
-//		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // 右上
-//		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // 右下
-//		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // 左下
-//		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // 左上
-//};
-
+#pragma region Model Date
 float vertices[] = {
 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -64,12 +57,6 @@ float vertices[] = {
 	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
-
-unsigned int indices[] = {
-	0,1,2,
-	2,3,0
-};
-
 glm::vec3 cubePositions[] = {
   glm::vec3(0.0f, 0.0f,  0.0f),
   glm::vec3(2.0f,  5.0f, -15.0f),
@@ -82,29 +69,18 @@ glm::vec3 cubePositions[] = {
   glm::vec3(1.5f,  0.2f, -1.5f),
   glm::vec3(-1.3f,  1.0f, -1.5f)
 };
+#pragma endregion
 
-//const char * vertexShaderSource =
-//"#version 330 core                                        				\n "
-//"layout(location = 0) in vec3 aPos; 								\n "
-//"layout(location = 1) in vec3 aColor; 							\n "
-//"out vec4 vertexColor;                                                 \n "
-//"void main() {																\n "
-//"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);       \n "
-//"	vertexColor = vec4(aColor.x, aColor.y, aColor.z, 1.0);												\n "
-//"}																					\n ";
-//
-//const char* fragmentShaderSource =
-//"#version 330 core                                    		\n "
-//"in vec4 vertexColor;                                 		\n "
-//"uniform vec4 ourColor;									\n "
-//"out vec4 FragColor;                                        \n "
-//"void main() {													\n "
-//"	FragColor = vertexColor;}								\n ";
-
-
+#pragma region Camera Declare
 //Instantiate Camera class
 //Camera camera(glm::vec3(0, 0, 3.0f), glm::vec3(0, 1, 0), glm::vec3(0, 1.0f, 0));
 Camera camera(glm::vec3(0, 0, 3.0f), 15.0f, 180.0f, glm::vec3(0, 1.0f, 0));
+#pragma endregion
+
+#pragma region Input Declare
+float LastX;
+float LastY;
+bool firstMouseInput = true;
 
 void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -134,10 +110,6 @@ void processInput(GLFWwindow* window) {
 	}
 }
 
-float LastX;
-float LastY;
-bool firstMouseInput = true;
-
 void mouse_callback(GLFWwindow* window, double xPos, double yPos) {
 	if (firstMouseInput) {
 		LastX = xPos;
@@ -154,9 +126,31 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos) {
 
 	camera.ProcessMoustMovement(deltaX, deltaY);
 }
+#pragma endregion
 
+unsigned int LoadImageToGPU(const char* filename,GLint internalFormat,GLenum format,int textureSlot) {
+	unsigned int TexBuffer;
+	glGenTextures(1, &TexBuffer);
+	glActiveTexture(GL_TEXTURE0 + textureSlot);
+	glBindTexture(GL_TEXTURE_2D, TexBuffer);
+
+	//加载并生成纹理
+	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(true);
+	unsigned char* data = stbi_load(filename, &width, &height, &nrChannels, 0);
+	if (data) {
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		printf("Failed to load texture");
+	}
+	stbi_image_free(data);
+	return TexBuffer;
+}
 
 int main() {
+	#pragma region Open a window
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -174,7 +168,7 @@ int main() {
 
 	}
 	glfwMakeContextCurrent(window);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//光标禁用
 	glfwSetCursorPosCallback(window, mouse_callback);
 
 	//Init GLFW
@@ -192,11 +186,13 @@ int main() {
 	//glCullFace(GL_BACK);//背面剔除
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//线框模式
 	glEnable(GL_DEPTH_TEST);
+	#pragma endregion
 
-	shaderClass1* myshader = new shaderClass1("vertexSource.txt", "fragmentSource.txt");
+	#pragma region Init Shader Program
+	shaderClass1* myshader = new shaderClass1("vertexSource.vert", "fragmentSource.frag");
+	#pragma endregion
 
-
-
+	#pragma region Init and Load Models to VAO, VBO
 	////主要用法
 	//unsigned int VAO[10];
 	//glGenVertexArrays(10, VAO);
@@ -212,126 +208,73 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	//
-	unsigned int EBO;
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	//unsigned int vertexShader;
-	//vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	//glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	//glCompileShader(vertexShader);
-
-	//unsigned int fragmentShader;
-	//fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	//glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	//glCompileShader(fragmentShader);
-
-	//unsigned int shaderProgram;
-	//shaderProgram = glCreateProgram();
-	//glAttachShader(shaderProgram, vertexShader);
-	//glAttachShader(shaderProgram, fragmentShader);
-	//glLinkProgram(shaderProgram);
-
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	//glEnableVertexAttribArray(1);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(2);
+	#pragma endregion
 
+	#pragma region Init and Load Textures
 	unsigned int TexBufferA;
-	glGenTextures(1, &TexBufferA);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, TexBufferA);
-	//加载并生成纹理
-	int width, height, nrChannels;
-	stbi_set_flip_vertically_on_load(true);
-	unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
-	if (data) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else {
-		printf("Failed to load texture");
-	}
-	stbi_image_free(data);
-
+	TexBufferA = LoadImageToGPU("container.jpg",GL_RGB,GL_RGB,0);
 	unsigned int TexBufferB;
-	glGenTextures(1, &TexBufferB);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, TexBufferB);
-	//加载并生成纹理
-	unsigned char* data2 = stbi_load("美女.png", &width, &height, &nrChannels, 0);
-	if (data2) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data2);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else {
-		printf("Failed to load texture");
-	}
-	stbi_image_free(data2);
+	TexBufferB = LoadImageToGPU("美女.png", GL_RGBA, GL_RGBA, 0);
+	#pragma endregion
 
-	//calculate our transformation matrix here.
-	glm::mat4 trans;
-	//trans = glm::rotate(trans, glm::radians(90.0f),glm::vec3(0.0f, 0, 1.0f));
-	//trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
-	//trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0));
-	//trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0, 0, 1.0f));
-
+	#pragma region Prepare MVP matrices
 	glm::mat4 modeMat;
-	modeMat = glm::rotate(modeMat, glm::radians(0.0f), glm::vec3(0, 1.0f, 1.0f));
 	glm::mat4 viewMat;
-	//viewMat = glm::translate(viewMat, glm::vec3(0, 0, -3.0f));
 	glm::mat4 projMat;
 	projMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+	#pragma endregion
 
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
-
+		//Clear Screen
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, TexBufferA);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, TexBufferB);
-		glBindVertexArray(VAO);//VAO不是必须的 VAO可以认为是个Key VAO不存储任何具体的订单值, VBO才存储, 当有多个VBO的时候 使用Key-VAO就会很方便
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-
-		//float timeValue = glfwGetTime();
-		//float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-		//int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-		//glUseProgram(shaderProgram);
-		//glUniform4f(vertexColorLocation, 0, greenValue, 0, 1.0f);
 
 		viewMat = camera.GetViewMatrix();
 
 		//TODO:一个glDrawArrays画出10个立方体
 		int modelnumber = 10;
-
 		for (int i = 0; i < modelnumber; i++)
 		{
-			glm::mat4 model;
-			model = glm::translate(model, cubePositions[i]);
+			//Set Model Matrix
+			modeMat = glm::translate(glm::mat4(1.0f), cubePositions[i]);
+			
+			//Set View and Projection Matrices here if you want.
+			
+			//Set Mateial -> Shader Program
 			myshader->use();
+			//Set Material -> Textures
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, TexBufferA);
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, TexBufferB);
+			//Set Material -> Uniforms
 			glUniform1i(glGetUniformLocation(myshader->ID, "ourTexture"), 0);
 			glUniform1i(glGetUniformLocation(myshader->ID, "ourFace"), 1);
 			//glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
-			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "modeMat"), 1, GL_FALSE, glm::value_ptr(model));
+			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "modeMat"), 1, GL_FALSE, glm::value_ptr(modeMat));
 			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
 			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "projMat"), 1, GL_FALSE, glm::value_ptr(projMat));
+			
+			//Set Model
+			glBindVertexArray(VAO);//VAO不是必须的 VAO可以认为是个Key VAO不存储任何具体的订单值, VBO才存储, 当有多个VBO的时候 使用Key-VAO就会很方便
+			//Drawcall
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//Clean Up,Prepare fpr next render loop
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 		camera.UpdateCameraPos();
 	}
 
-
+	//Exit Program
 	glfwTerminate();
 	return 0;
 }
