@@ -262,6 +262,9 @@ int main() {
 			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "modeMat"), 1, GL_FALSE, glm::value_ptr(modeMat));
 			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
 			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "projMat"), 1, GL_FALSE, glm::value_ptr(projMat));
+			glUniform3f(glGetUniformLocation(myshader->ID, "objColor"), 1.0f, 0.5f, 0.31f);
+			glUniform3f(glGetUniformLocation(myshader->ID, "ambientColor"), 1.0f, 0.5f, 0.31f);
+
 			
 			//Set Model
 			glBindVertexArray(VAO);//VAO不是必须的 VAO可以认为是个Key VAO不存储任何具体的订单值, VBO才存储, 当有多个VBO的时候 使用Key-VAO就会很方便
