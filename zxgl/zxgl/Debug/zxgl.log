@@ -3,10 +3,10 @@
 D:\user\homework\AnodeGL\zxgl\zxgl\Camera.h(19,18): warning C4305:  “初始化”: 从“double”到“float”截断
 D:\user\homework\AnodeGL\zxgl\zxgl\Camera.h(20,20): warning C4305:  “初始化”: 从“double”到“float”截断
 D:\user\homework\AnodeGL\zxgl\zxgl\Camera.h(21,24): warning C4305:  “初始化”: 从“double”到“float”截断
-D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(115,11): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
 D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(116,11): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
-D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(121,16): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(117,11): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
 D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(122,16): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
-D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(124,10): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(123,16): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
 D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(125,10): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(126,10): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
   zxgl.vcxproj -> D:\user\homework\AnodeGL\zxgl\Debug\Asahi.exe

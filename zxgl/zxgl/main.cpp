@@ -14,48 +14,49 @@
 #include "Camera.h"
 
 #pragma region Model Date
+// ------------------------------------------------------------------ 
 float vertices[] = {
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	 -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	  0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	  0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	  0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	 -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	 -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	 -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	  0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	  0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	  0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	 -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	 -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
 
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+	 -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	 -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	 -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	 -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+	 -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	  0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+	  0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	  0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	  0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	  0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+	  0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+	  0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+	  0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	  0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	 -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	 -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	 -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+	  0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+	  0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	  0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	 -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	 -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
 glm::vec3 cubePositions[] = {
   glm::vec3(0.0f, 0.0f,  0.0f),
@@ -103,7 +104,7 @@ void processInput(GLFWwindow* window) {
 	{
 		camera.SpeedX = 1.0f;
 	}
-	else 
+	else
 	{
 		camera.SpeedZ = 0.0f;
 		camera.SpeedX = 0.0f;
@@ -128,7 +129,7 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos) {
 }
 #pragma endregion
 
-unsigned int LoadImageToGPU(const char* filename,GLint internalFormat,GLenum format,int textureSlot) {
+unsigned int LoadImageToGPU(const char* filename, GLint internalFormat, GLenum format, int textureSlot) {
 	unsigned int TexBuffer;
 	glGenTextures(1, &TexBuffer);
 	glActiveTexture(GL_TEXTURE0 + textureSlot);
@@ -150,7 +151,7 @@ unsigned int LoadImageToGPU(const char* filename,GLint internalFormat,GLenum for
 }
 
 int main() {
-	#pragma region Open a window
+#pragma region Open a window
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -168,7 +169,7 @@ int main() {
 
 	}
 	glfwMakeContextCurrent(window);
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//光标禁用
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//光标禁用
 	glfwSetCursorPosCallback(window, mouse_callback);
 
 	//Init GLFW
@@ -186,13 +187,13 @@ int main() {
 	//glCullFace(GL_BACK);//背面剔除
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//线框模式
 	glEnable(GL_DEPTH_TEST);
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Init Shader Program
+#pragma region Init Shader Program
 	shaderClass1* myshader = new shaderClass1("vertexSource.vert", "fragmentSource.frag");
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Init and Load Models to VAO, VBO
+#pragma region Init and Load Models to VAO, VBO
 	////主要用法
 	//unsigned int VAO[10];
 	//glGenVertexArrays(10, VAO);
@@ -208,27 +209,27 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	//glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(2);
-	#pragma endregion
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(3);
+#pragma endregion
 
-	#pragma region Init and Load Textures
+#pragma region Init and Load Textures
 	unsigned int TexBufferA;
-	TexBufferA = LoadImageToGPU("container.jpg",GL_RGB,GL_RGB,0);
+	TexBufferA = LoadImageToGPU("container.jpg", GL_RGB, GL_RGB, 0);
 	unsigned int TexBufferB;
 	TexBufferB = LoadImageToGPU("美女.png", GL_RGBA, GL_RGBA, 0);
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Prepare MVP matrices
+#pragma region Prepare MVP matrices
 	glm::mat4 modeMat;
 	glm::mat4 viewMat;
 	glm::mat4 projMat;
 	projMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-	#pragma endregion
+#pragma endregion
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -245,9 +246,9 @@ int main() {
 		{
 			//Set Model Matrix
 			modeMat = glm::translate(glm::mat4(1.0f), cubePositions[i]);
-			
+
 			//Set View and Projection Matrices here if you want.
-			
+
 			//Set Mateial -> Shader Program
 			myshader->use();
 			//Set Material -> Textures
@@ -256,16 +257,18 @@ int main() {
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, TexBufferB);
 			//Set Material -> Uniforms
-			glUniform1i(glGetUniformLocation(myshader->ID, "ourTexture"), 0);
-			glUniform1i(glGetUniformLocation(myshader->ID, "ourFace"), 1);
+			//glUniform1i(glGetUniformLocation(myshader->ID, "ourTexture"), 0);
+			//glUniform1i(glGetUniformLocation(myshader->ID, "ourFace"), 1);
 			//glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
 			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "modeMat"), 1, GL_FALSE, glm::value_ptr(modeMat));
 			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
 			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "projMat"), 1, GL_FALSE, glm::value_ptr(projMat));
 			glUniform3f(glGetUniformLocation(myshader->ID, "objColor"), 1.0f, 0.5f, 0.31f);
 			glUniform3f(glGetUniformLocation(myshader->ID, "ambientColor"), 1.0f, 0.5f, 0.31f);
+			glUniform3f(glGetUniformLocation(myshader->ID, "lightPos"), 10.0f, 10.0f, 5.0f);
+			glUniform3f(glGetUniformLocation(myshader->ID, "lightColor"), 1.0f, 1.0f, 1.0f);
 
-			
+
 			//Set Model
 			glBindVertexArray(VAO);//VAO不是必须的 VAO可以认为是个Key VAO不存储任何具体的订单值, VBO才存储, 当有多个VBO的时候 使用Key-VAO就会很方便
 			//Drawcall
