@@ -9,4 +9,15 @@ D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(122,16): warning C4244:  “=”: �
 D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(123,16): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
 D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(125,10): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
 D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(126,10): warning C4244:  “=”: 从“double”转换到“float”，可能丢失数据
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(237,22): warning C4244:  “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(282,22): warning C4244:  “=”: 从“double”转换到“T”，可能丢失数据
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(282,22): warning C4244:         with
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(282,22): warning C4244:         [
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(282,22): warning C4244:             T=float
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(282,22): warning C4244:         ]
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(283,43): warning C4244:  “=”: 从“double”转换到“T”，可能丢失数据
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(283,43): warning C4244:         with
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(283,43): warning C4244:         [
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(283,43): warning C4244:             T=float
+D:\user\homework\AnodeGL\zxgl\zxgl\main.cpp(283,43): warning C4244:         ]
   zxgl.vcxproj -> D:\user\homework\AnodeGL\zxgl\Debug\Asahi.exe

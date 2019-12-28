@@ -233,12 +233,23 @@ int main() {
 
 	while (!glfwWindowShouldClose(window))
 	{
+		// per-frame time logic
+		float currentFrame = glfwGetTime();
+		float lastFrame = currentFrame;
+		float deltaTime = currentFrame - lastFrame;
+
 		processInput(window);
 		//Clear Screen
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		viewMat = camera.GetViewMatrix();
+
+
+			// clear the colorbuffer
+			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
 		//TODO:一个glDrawArrays画出10个立方体
 		int modelnumber = 10;
@@ -256,6 +267,8 @@ int main() {
 			glBindTexture(GL_TEXTURE_2D, TexBufferA);
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, TexBufferB);
+
+
 			//Set Material -> Uniforms
 			//glUniform1i(glGetUniformLocation(myshader->ID, "ourTexture"), 0);
 			//glUniform1i(glGetUniformLocation(myshader->ID, "ourFace"), 1);
@@ -265,7 +278,10 @@ int main() {
 			glUniformMatrix4fv(glGetUniformLocation(myshader->ID, "projMat"), 1, GL_FALSE, glm::value_ptr(projMat));
 			glUniform3f(glGetUniformLocation(myshader->ID, "objColor"), 1.0f, 0.5f, 0.31f);
 			glUniform3f(glGetUniformLocation(myshader->ID, "ambientColor"), 0.2f, 0.1f, 0.0f);
-			glUniform3f(glGetUniformLocation(myshader->ID, "lightPos"), 10.0f, 10.0f, 5.0f);
+			glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+			lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
+			lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
+			glUniform3f(glGetUniformLocation(myshader->ID, "lightPos"), lightPos.x, lightPos.y, 5.0f);
 			glUniform3f(glGetUniformLocation(myshader->ID, "lightColor"), 1.0f, 1.0f, 1.0f);
 			glUniform3f(glGetUniformLocation(myshader->ID, "cameraPos"), camera.Position.x, camera.Position.y, camera.Position.z);
 
