@@ -1,5 +1,5 @@
-# ZXGL
-基于opengl的引擎
+#  DawnReactor
+基于opengl的PC端引擎
 
 
 ### 17 Texture(2)
